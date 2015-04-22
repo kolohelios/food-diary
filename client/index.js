@@ -44,18 +44,38 @@ angular.module('food-diary', ['firebase'])
      calcWeight();
   });
 
-  $scope.addFood = function(){
-    $scope.foods.$add($scope.food);
-    var now = new Date();
-    $scope.food.date = now.getTime();
-    calcWeight();
+  $scope.saveFood = function(){
+    console.log($scope.food);
+
+    if($scope.food.$id){
+      $scope.foods.$save($scope.food).then(function(){
+        calcWeight();
+        $scope.food = {};
+      });
+    } else{
+      var now = new Date();
+      $scope.food.date = now.getTime();
+      $scope.foods.$add($scope.food).then(function(){
+        calcWeight();
+        $scope.food = {};
+      });
+    }
   };
 
   function calcWeight(){
-    var totalCals = 0;
-    $scope.foods.forEach(function(f){
-      totalCals += f.calsPerServing * f.servings;
-    });
+    var totalCals = $scope.foods.reduce(function(acc, f){
+      return acc + (f.calsPerServing * f.servings);
+    }, 0);
     $scope.endWeight = $scope.user.weight + totalCals / 3500;
   }
+
+  $scope.removeFood = function(food){
+    $scope.foods.$remove(food).then(function(){
+      calcWeight();
+    });
+  };
+
+  $scope.editFood = function(food){
+    $scope.food = food;
+  };
 }]);
