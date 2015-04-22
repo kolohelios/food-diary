@@ -1,20 +1,48 @@
 doctype html
-html(lang='en', ng-app='poseidon')
+html(lang='en', ng-app='food-diary')
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Poseidon
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.css')
+    title Food Diary
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cosmo/bootstrap.min.css')
     link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href=isProd ? '/index.min.css' : '/index.css')
     link(rel='shortcut icon', href='/favicon.ico')
-  body
+  body(ng-controller='master')
     .container-fluid
       .row
         .col-xs-12
-          h1 Poseidon
-
+          h1 Food Diary
+      .row
+        .col-xs-9
+          form(name='userForm', novalidate)
+            form-group.form-group
+              label(for='name') Name
+              input.form-control(type='text', name='name', ng-model='user.name')
+            form-group.form-group
+              label(for='age') Age
+              input.form-control(type='number', name='age', ng-model='user.age')
+            form-group.form-group
+              label(for='gender') Gender
+              select.form-control(name='gender', ng-model='user.gender')
+                option male
+                option female
+            form-group.form-group
+              label(for='weight') Weight
+              input.form-control(type='number', name='weight', ng-model='user.weight')
+            form-group.form-group
+              label(for='height') Height
+              input.form-control(type='number', name='age', ng-model='user.height')
+            form-group.form-group
+              label(for='heightunits') Height
+              select.form-control(name='heightunits', ng-model='user.heightunits')
+                option cm
+                option inches
+            button.btn.btn-primary.form-control(ng-click='saveUser()') Save User
+        .row
+          .col-xs-3
+            p {{bmi | number : 1}}
     script(src='/vendor/jquery/dist/jquery.min.js')
     script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
     script(src='/vendor/lodash/lodash.min.js')
