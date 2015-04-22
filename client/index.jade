@@ -14,35 +14,79 @@ html(lang='en', ng-app='food-diary')
       .row
         .col-xs-12
           h1 Food Diary
+          button.btn.btn-success(ng-click='showUserForm()') Show User Form
+      form(name='userForm', novalidate)
+      .row(ng-show='isUserFormShown')
+        .col-xs-6
+          .form-group
+            label(for='name') Name
+            input.form-control(type='text', name='name', ng-model='user.name')
+          .form-group
+            label(for='age') Age
+            input.form-control(type='number', name='age', ng-model='user.age')
+          .form-group
+            label(for='gender') Gender
+            select.form-control(name='gender', ng-model='user.gender')
+              option male
+              option female
+        .col-xs-6
+          .form-group
+            label(for='weight') Weight
+            input.form-control(type='number', name='weight', ng-model='user.weight')
+          .form-group
+            label(for='height') Height
+            input.form-control(type='number', name='age', ng-model='user.height')
+          .form-group
+            label(for='heightunits') Height
+            select.form-control(name='heightunits', ng-model='user.heightunits')
+              option cm
+              option inches
+          button.btn.btn-primary.form-control(ng-click='saveUser()') Save User
+      form(name='foodForm', novalidate)
       .row
-        .col-xs-9
-          form(name='userForm', novalidate)
-            form-group.form-group
-              label(for='name') Name
-              input.form-control(type='text', name='name', ng-model='user.name')
-            form-group.form-group
-              label(for='age') Age
-              input.form-control(type='number', name='age', ng-model='user.age')
-            form-group.form-group
-              label(for='gender') Gender
-              select.form-control(name='gender', ng-model='user.gender')
-                option male
-                option female
-            form-group.form-group
-              label(for='weight') Weight
-              input.form-control(type='number', name='weight', ng-model='user.weight')
-            form-group.form-group
-              label(for='height') Height
-              input.form-control(type='number', name='age', ng-model='user.height')
-            form-group.form-group
-              label(for='heightunits') Height
-              select.form-control(name='heightunits', ng-model='user.heightunits')
-                option cm
-                option inches
-            button.btn.btn-primary.form-control(ng-click='saveUser()') Save User
-        .row
-          .col-xs-3
-            p {{bmi | number : 1}}
+        .col-xs-3
+          .form-group
+            label(for='desc') Food Desc
+            input.form-control(type='text', name='desc', ng-model='food.desc')
+        .col-xs-3
+          .form-group
+            label(for='meal') Meal
+            select.form-control(name='meal', ng-model='food.meal')
+              option breakfast
+              option lunch
+              option dinner
+        .col-xs-3
+          .form-group
+            label(for='calories') Calories/Serving
+            input.form-control(type='number', name='calories', ng-model='food.calsPerServing')
+        .col-xs-3
+          .form-group
+            label(for='servings') Servings
+            input.form-control(type='number', name='servings', ng-model='food.servings', value='1')
+          button.btn.btn-primary.form-control(ng-click='addFood()') Save Food
+      .row
+        .col-xs-12
+          table.table.table-striped
+            thead
+              tr
+                th Desc
+                th Meal
+                th Calories
+                th Servings
+                th Date
+            tbody
+              tr(ng-repeat='food in foods')
+                td {{food.desc}}
+                td {{food.meal}}
+                td {{food.calsPerServing}}
+                td {{food.servings}}
+                td {{food.date | date: 'short'}}
+      .row
+        .col-xs-6
+          p Starting weight: {{user.weight}}
+          p Ending weight: {{endWeight | number: 1}}
+          p Starting BMI: {{bmi | number : 1}}
+            
     script(src='/vendor/jquery/dist/jquery.min.js')
     script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
     script(src='/vendor/lodash/lodash.min.js')
